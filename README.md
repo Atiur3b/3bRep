@@ -1,4 +1,4 @@
-Hoi Nick
+Hoi Nick falls das gsehsch lahs mich wüsse!
 ========
 
 blabedibla

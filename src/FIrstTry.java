@@ -1,9 +1,27 @@
-
-public class FIrstTry {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+import java.util.Scanner;
+class Ratespielfunktion {
+	public static void main(String args[]){
+		Scanner UI = new Scanner(System.in);
+		int x,z;
+		z=42;
+		System.out.println("Willkommen beim Ratespiel! Finde die gesuchte anze Zahl.");
+		System.out.println("Gib deinen Lösungsvorschlag ein:");
+		x = UI.nextInt();
+		if(x==z){
+			System.out.println("Glückwunsch! Du hast die Zahl gefunden.");
+		}else{
+			while (x!=z){
+			if(x < z){
+			System.out.println("Die Zahl ist zu Klein!");
+			x = UI.nextInt();
+			}else{
+			System.out.println("Die Zahl ist zu Gross!");
+			x = UI.nextInt();
+			}
+		}
+				System.out.println("Glückwunsch! Du hast die Zahl gefunden.");
+		}	
+		
 	}
 
 }
