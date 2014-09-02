@@ -1,4 +1,7 @@
+package pack;
 import java.util.Scanner;
+
+import pack.Log.Level;
 class Ratespielfunktion {
 	public static void main(String args[]){
 		Scanner UI = new Scanner(System.in);
@@ -20,6 +23,7 @@ class Ratespielfunktion {
 			}
 		}
 				System.out.println("Glückwunsch! Du hast die Zahl gefunden.");
+				Log.log(Level.DEBUG, "Test Login");
 		}	
 		
 	}
