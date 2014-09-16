@@ -1,4 +1,4 @@
-package pack;
+package ch.ksimlee.it.game3b;
 /**
  * This is a simple implementation for logging. It contains functionality to log
  * messages of different severity, and to change the level dynamically.

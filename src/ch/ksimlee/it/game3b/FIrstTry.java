@@ -1,8 +1,8 @@
-package pack;
+package ch.ksimlee.it.game3b;
 import java.util.Scanner;
 
-import pack.Log.Level;
-class Ratespielfunktion {
+import ch.ksimlee.it.game3b.Log.Level;
+class FirstTry {
 	public static void main(String args[]){
 		Scanner UI = new Scanner(System.in);
 		int x,z;
