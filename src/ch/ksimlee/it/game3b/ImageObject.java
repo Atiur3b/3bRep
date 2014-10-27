@@ -1,6 +1,5 @@
 package ch.ksimlee.it.game3b;
 
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;

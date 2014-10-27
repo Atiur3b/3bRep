@@ -1,8 +1,9 @@
 package ch.ksimlee.it.game3b;
 
-
-
 import java.awt.BorderLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
@@ -47,8 +48,30 @@ public class Window extends JFrame {
 
 		// This swing function is necessary so that the JFrame is rendered.
 		pack();
+		
+		// Setup the the user input.
+		setupInput(game);
 
 		Log.info("Initialized main window.");
 	}
 
+	/**
+	 * This functions is used to setup all the handling of user inputs, e.g.,
+	 * keystrokes.
+	 * @param game 
+	 */
+	private void setupInput(final Game game) {
+
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(new KeyEventDispatcher() {
+			
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				game.getInputHandler().handleKeyEvent(e);
+				return false;
+			}
+		});
+
+	}
+	
 }

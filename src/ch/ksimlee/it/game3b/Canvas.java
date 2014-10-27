@@ -1,13 +1,12 @@
 package ch.ksimlee.it.game3b;
 
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -20,11 +19,11 @@ import ch.ksimlee.it.game3b.RenderObject;
 public class Canvas extends JPanel {
 
 	// This variable stores the size of the canvas (in pixel).
-	private Dimension SIZE = new Dimension(1000, 1000);
+	private Dimension SIZE = new Dimension(640, 480);
 
 	// This variable stores with how many frames per second (FPS) the canvas
 	// should be redrawn.
-	private static final int FPS = 25;
+	private static final int FPS = 30;
 	
 	/** Should the FPS be shown? */
 	private boolean showFPS = true;
@@ -92,8 +91,12 @@ public class Canvas extends JPanel {
 		// "background".
 		g.fillRect(0, 0, SIZE.width, SIZE.height);
 
+		// Get all objects, and sort them according to ther zIndex.
+		List<RenderObject> gameObjects = new ArrayList<RenderObject>(game.getObjectsToRender());
+		Collections.sort(gameObjects);
+		
 		// Render all objects.
-		for (RenderObject object : game.getObjectsToRender()) {
+		for (RenderObject object : gameObjects) {
 			object.render(g);
 		}
 		

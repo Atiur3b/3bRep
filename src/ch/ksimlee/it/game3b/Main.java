@@ -3,7 +3,9 @@ package ch.ksimlee.it.game3b;
 import java.awt.EventQueue;
 
 public class Main {
+
 	public static void main(String[] args) {
+
 		/*
 		 * Run the command to create the window (the JFrame) in the separate
 		 * drawing thread. In swing, all commands that draw something should be
@@ -12,10 +14,12 @@ public class Main {
 		 * "EventQueue.invokeLater(...)" .
 		 */
 		EventQueue.invokeLater(new Runnable() {
+
 			// This function specifies the commands which the drawing thread
 			// should execute.
 			@Override
 			public void run() {
+				
 				// Create the Game object.
 				Game game = new Game();
 
@@ -26,6 +30,7 @@ public class Main {
 				// Start the game!
 				new Thread(game).start();
 			}
-		});
-	}
+  });
+    }
+
 }
