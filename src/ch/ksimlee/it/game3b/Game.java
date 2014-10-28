@@ -20,6 +20,10 @@ public class Game implements Runnable {
 	
 	private final Spaceship spaceship;
 	private final hindernis hindernis;
+	private final Spaceship gameo;
+	public static boolean collision = false;
+	private static int life = 3;
+	private static int saver = 300;
 	
 	public Game() {
 		
@@ -27,10 +31,12 @@ public class Game implements Runnable {
 		
 		// Create the spaceship.
 		spaceship = new Spaceship(100, 300);
+		gameo = new Spaceship(400,400);
 		hindernis = new hindernis(500 , 300);
 		// Add the spaceship to the list of renderable objects.
 		objectsToRender.add(spaceship);
 		objectsToRender.add(hindernis);
+		
 		
 		Log.info("Game initialized.");
 	}
@@ -45,8 +51,23 @@ public class Game implements Runnable {
 			// TODO: Add game mechanics here.
 			
 			// XXX: Example
-			spaceship.update(inputHandler);
-			hindernis.update(inputHandler);
+			spaceship.update(inputHandler, objectsToRender);
+			hindernis.update(inputHandler, objectsToRender);
+			saver --;
+			
+			if (saver < 1)
+				if (collision)
+					life = life -1;
+			if (life == 0)
+				objectsToRender.add(gameo);
+				
+					
+			
+			
+			// Update all game objects.
+			for (RenderObject object : objectsToRender) {
+				object.update(inputHandler, objectsToRender);
+			}
 			
 			// Update the input state.
 			inputHandler.updatedReleasedKeys();

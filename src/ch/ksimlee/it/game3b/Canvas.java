@@ -97,7 +97,8 @@ public class Canvas extends JPanel {
 		
 		// Render all objects.
 		for (RenderObject object : gameObjects) {
-			object.render(g);
+			object.renderInternal(g);
+
 		}
 		
 		// Calculate the actual FPS.

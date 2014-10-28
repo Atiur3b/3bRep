@@ -34,12 +34,12 @@ public class InputHandler {
 		switch(keyEvent.getID()) {
 		
 		case KeyEvent.KEY_PRESSED: 
-			Log.info("Pressed key: " + key);
+			Log.debug("Pressed key: " + key);
 			keyPressed.add(key);
 			break;
 			
 		case KeyEvent.KEY_RELEASED: 
-			Log.info("Released key: " + key);
+			Log.debug("Released key: " + key);
 			keyReleased.add(key);
 			break;
 		
