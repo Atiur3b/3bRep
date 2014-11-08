@@ -5,12 +5,9 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
-
 import ch.ksimlee.it.game3b.Canvas;
-import ch.ksimlee.it.game3b.InputHandler;
+import ch.ksimlee.it.game3b.Game;
 import ch.ksimlee.it.game3b.Log;
-
 
 /**
  * This class can be extended by classes that can render themselves on the
@@ -26,6 +23,7 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	
 	/** The Y coordinate of this render object. */
 	protected int y;
+	
 	/** Can other objects collide with this object? */
 	protected boolean hasCollision = false;
 	
@@ -47,7 +45,6 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	 *            The initial zIndex of the object.
 	 * @param collision
 	 *            Can other objects collide with this object?
-	 *           
 	 */
 	public RenderObject(int x, int y, int zIndex, boolean collision) {
 		this.x = x;
@@ -59,16 +56,27 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	/**
 	 * Update this object based on the current user input.
 	 * 
-	 * @param currentInput
-	 *            The current user input.
+	 * @param game The current game in which this object is.
+	 */
+	public void update(Game game) {
+		// Default: Do nothing
+	}
+	
+	/**
+	 * Move this object.
+	 * 
+	 * @param dx
+	 *            Delta x to move.
+	 * @param dy
+	 *            Delta y to move.
 	 * @param allObjects
 	 *            All objects that currently exist.
 	 * 
-+	 * @return True, iff there was a collision.
-+	 */
-	public boolean move(int dx, int dy, Set<RenderObject> allObjects) {
-    // Did we encounter a collision during the movement?
-		boolean collision = false;
+	 * @return True, iff there was a collision.
+	 */
+	public RenderObject move(int dx, int dy, Set<RenderObject> allObjects) {
+		
+		RenderObject collision = null;
 		
 		if (hasCollision) {
 			// We need to check for collision.
@@ -115,14 +123,14 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 					
 					if (overlapsWithObject(object)) {
 						// There is a collision!
-						collision = true;
+						collision = object;
 						
 						// Exit the loop of checking for collisions directly.
 						break;
 					}
 				}
 				
-				if (collision) {
+				if (collision != null) {
 					// There was a collision!
 					
 					// Move one step back, to the last position, because
@@ -134,7 +142,8 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 					this.x = Math.round(positionX);
 					this.y = Math.round(positionY);
 					
-					// Exit the moving loop, since we have a collision and we+					// cannot move further.
+					// Exit the moving loop, since we have a collision and we
+					// cannot move further.
 					break;
 				}
 				
@@ -148,12 +157,13 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 			this.y += dy;
 		}
 		
-		if (collision) {
+		if (collision != null) {
 			Log.info("There was a collision!");
 		}
 		
 		return collision;
-	}	
+	}
+	
 	/**
 	 * Check if the bounding box of this rectangle overlaps with the bounding
 	 * box of another object.
@@ -162,25 +172,11 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	 *            The other object.
 	 * @return True, iff the objects overlap.
 	 */
-	public void update(InputHandler currentInput, Set<RenderObject> allObjects) {
-		// Default: Do nothing
-	}
-	
-	/**
-	 * Move this object.
-	 * 
-	 * @param dx
-	 *            Delta x to move.
-	 * @param dy
-	 *            Delta y to move.
-     * @param allObjects
-	 *            All objects that currently exist.
-	 */
 	private boolean overlapsWithObject(RenderObject other) {
-				return (x < other.x + other.getWidth() &&
-				        x + getWidth() > other.x &&
-				        y < other.y + other.getHeight() &&
-				        y + getHeight()  > other.y);
+		return (x < other.x + other.getWidth() &&
+		        x + getWidth() > other.x &&
+		        y < other.y + other.getHeight() &&
+		        y + getHeight()  > other.y);
 	}
 	
 	@Override
@@ -190,38 +186,44 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 		}
 		return false;
 	}
-
+	
+	public int getCenterX() {
+		return x + getWidth() / 2;
+	}
+	
+	public int getCenterY() {
+		return y + getHeight() / 2;
+	}
+	
 	public abstract int getWidth();
+	
 	public abstract int getHeight();
 	
-	
-		/**
-		* Internal function to render objects.
-		* 
-		* @param g
-		*            The graphics context to render on.
-		*/
-		public final void renderInternal(Graphics g) {
-
-			// Perform the actual rendering.
-			render(g);
-
-			// Perform the debug rendering.
-
-			if (SHOW_BOUNDING_BOX) {
-
-				// Store the current color.
-				Color color = g.getColor();
-				
-				g.setColor(Color.magenta);
-				g.drawRect(x, y, getWidth(), getHeight());
-
-				// Restore the color.
-				g.setColor(color);
-	}
-		}
-
 	/**
+	 * Internal function to render objects.
+	 * 
+	 * @param g
+	 *            The graphics context to render on.
+	 */
+	public final void renderInternal(Graphics g) {
+
+		// Perform the actual rendering.
+		render(g);
+
+		// Perform the debug rendering.
+		
+		if (SHOW_BOUNDING_BOX) {
+
+			// Store the current color.
+			Color color = g.getColor();
+
+			g.setColor(Color.magenta);
+			g.drawRect(x, y, getWidth(), getHeight());
+
+			// Restore the color.
+			g.setColor(color);
+		}
+	}
 	
 	/**
 	 * Render this object on the Canvas' graphic area.
