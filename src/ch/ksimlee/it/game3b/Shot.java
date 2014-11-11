@@ -1,5 +1,4 @@
 package ch.ksimlee.it.game3b;
-
 import ch.ksimlee.it.game3b.Game;
 
 public class Shot extends ImageObject {
@@ -9,7 +8,7 @@ public class Shot extends ImageObject {
 	
 	private static final int zIndex = 100;
 	
-	private int speed = 10;
+	private int speed = 20;
 
 	public Shot(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
@@ -20,6 +19,8 @@ public class Shot extends ImageObject {
 		
 		x = spaceship.getCenterX() - getWidth() / 2;
 		y = spaceship.y - getHeight();
+		
+		collisionTargets.add(Alien.class);
 	}
 
 	@Override
@@ -33,12 +34,9 @@ public class Shot extends ImageObject {
 				game.getObjectsToRemove().add(collision);
 				game.getObjectsToRemove().add(this);
 				game.getObjectsToAdd().add(new Explosion(collision));
+				
 			}
-			if (collision instanceof hindernis) {
-				game.getObjectsToRemove().add(collision);
-				game.getObjectsToRemove().add(this);
-				game.getObjectsToAdd().add(new Explosion(collision));
-			}
+			
 		}
 		
 		if (y <= -getHeight()) {

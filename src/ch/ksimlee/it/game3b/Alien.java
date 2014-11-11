@@ -9,10 +9,12 @@ public class Alien extends ImageObject {
 	
 	private static final int zIndex = 100;
 	
-	private int speed = 3;
+	private int speed = (int) (((int) (Math.random()*5)) + 0.5);
 
 	public Alien(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
+		
+		collisionTargets.add(Shot.class);
 	}
 
 	@Override

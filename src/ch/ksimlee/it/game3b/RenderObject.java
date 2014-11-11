@@ -5,10 +5,6 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.ksimlee.it.game3b.Canvas;
-import ch.ksimlee.it.game3b.Game;
-import ch.ksimlee.it.game3b.Log;
-
 /**
  * This class can be extended by classes that can render themselves on the
  * {@link Canvas}.
@@ -26,6 +22,8 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	
 	/** Can other objects collide with this object? */
 	protected boolean hasCollision = false;
+	
+	protected Set<Class> collisionTargets = new HashSet<Class>();
 	
 	/**
 	 * The zIndex is responsible for how much in front the object is drawn. The
@@ -87,7 +85,7 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 			// Add all _other_ objects that have collision.
 			for (RenderObject object : allObjects) {
 				
-				if (object != this && object.hasCollision) {
+				if (object != this && object.hasCollision && object.collisionTargets.contains(getClass())) {
 					collisionTargets.add(object);
 				}
 			}
@@ -172,7 +170,7 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	 *            The other object.
 	 * @return True, iff the objects overlap.
 	 */
-	private boolean overlapsWithObject(RenderObject other) {
+	public boolean overlapsWithObject(RenderObject other) {
 		return (x < other.x + other.getWidth() &&
 		        x + getWidth() > other.x &&
 		        y < other.y + other.getHeight() &&
