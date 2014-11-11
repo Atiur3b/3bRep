@@ -27,14 +27,16 @@ public class ImageObject extends RenderObject {
 	 * @param y
 	 *            The initial y coordinate.
 	 * @param zIndex
-	 *            The initial zIndex.
+	 *            The initial zIndex             
+	 * @param collision
+	 *            Can other objects collide with this one?
 	 * @param filename
 	 *            The filename of the image to render.
 	 */
-	public ImageObject(int x, int y, int zIndex, String filename) {
+	public ImageObject(int x, int y, int zIndex, boolean collision, String filename) {
 		
 		// Call the constructor of the parent class.
-		super(x, y, zIndex);
+		super(x, y, zIndex, collision);
 		
 		// Check if the provided file name makes sense.
 		if (filename == null) {
@@ -58,6 +60,15 @@ public class ImageObject extends RenderObject {
 	public void render(Graphics g) {
 
 		g.drawImage(image, x, y, null);
+	}
+	@Override
+		public int getWidth() {
+		return image.getWidth();
+	}
+
+	@Override
+		public int getHeight() {
+		return image.getHeight();
 	}
 
 }

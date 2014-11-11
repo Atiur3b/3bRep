@@ -19,7 +19,7 @@ import ch.ksimlee.it.game3b.RenderObject;
 public class Canvas extends JPanel {
 
 	// This variable stores the size of the canvas (in pixel).
-	private Dimension SIZE = new Dimension(640, 480);
+	private Dimension SIZE = new Dimension(800, 700);
 
 	// This variable stores with how many frames per second (FPS) the canvas
 	// should be redrawn.
@@ -97,7 +97,8 @@ public class Canvas extends JPanel {
 		
 		// Render all objects.
 		for (RenderObject object : gameObjects) {
-			object.render(g);
+			object.renderInternal(g);
+
 		}
 		
 		// Calculate the actual FPS.

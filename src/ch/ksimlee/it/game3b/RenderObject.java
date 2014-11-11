@@ -1,9 +1,13 @@
 package ch.ksimlee.it.game3b;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashSet;
+import java.util.Set;
 
 import ch.ksimlee.it.game3b.Canvas;
-import ch.ksimlee.it.game3b.InputHandler;
+import ch.ksimlee.it.game3b.Game;
+import ch.ksimlee.it.game3b.Log;
 
 /**
  * This class can be extended by classes that can render themselves on the
@@ -11,11 +15,17 @@ import ch.ksimlee.it.game3b.InputHandler;
  */
 public abstract class RenderObject implements Comparable<RenderObject> {
 	
+	/** Should the bounding boxes of objects be drawn? */
+	public static boolean SHOW_BOUNDING_BOX = true;
+	
 	/** The X coordinate of this render object. */
 	protected int x;
 	
 	/** The Y coordinate of this render object. */
 	protected int y;
+	
+	/** Can other objects collide with this object? */
+	protected boolean hasCollision = false;
 	
 	/**
 	 * The zIndex is responsible for how much in front the object is drawn. The
@@ -33,20 +43,22 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	 *            The initial Y coordinate.
 	 * @param zIndex
 	 *            The initial zIndex of the object.
+	 * @param collision
+	 *            Can other objects collide with this object?
 	 */
-	public RenderObject(int x, int y, int zIndex) {
+	public RenderObject(int x, int y, int zIndex, boolean collision) {
 		this.x = x;
 		this.y = y;
 		this.zIndex = zIndex;
+		this.hasCollision = collision;
 	}
 	
 	/**
 	 * Update this object based on the current user input.
 	 * 
-	 * @param currentInput
-	 *            The current user input.
+	 * @param game The current game in which this object is.
 	 */
-	public void update(InputHandler currentInput) {
+	public void update(Game game) {
 		// Default: Do nothing
 	}
 	
@@ -57,10 +69,114 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 	 *            Delta x to move.
 	 * @param dy
 	 *            Delta y to move.
+	 * @param allObjects
+	 *            All objects that currently exist.
+	 * 
+	 * @return True, iff there was a collision.
 	 */
-	public void move(int dx, int dy) {
-		this.x += dx;
-		this.y += dy;
+	public RenderObject move(int dx, int dy, Set<RenderObject> allObjects) {
+		
+		RenderObject collision = null;
+		
+		if (hasCollision) {
+			// We need to check for collision.
+			
+			// Create a set for all possible collision targets.
+			Set<RenderObject> collisionTargets = new HashSet<RenderObject>();
+			
+			// Add all _other_ objects that have collision.
+			for (RenderObject object : allObjects) {
+				
+				if (object != this && object.hasCollision) {
+					collisionTargets.add(object);
+				}
+			}
+			
+			// Simple algorithm:
+			
+			// 1. Calculate the number of movement steps.
+			int steps = Math.max(Math.abs(dx), Math.abs(dy));
+			
+			// Calculate the speed in the two dimensions.
+			// This can be fractions, thus we need to use floats.
+			float speedX = ((float) dx) / steps;
+			float speedY = ((float) dy) / steps;
+			
+			// As we are working with floats for the speed, we need
+			// to use floats for the position too.
+			float positionX = this.x;
+			float positionY = this.y;
+			
+			// 2. Move "step by step" into the desired direction.
+			for (int step = 0; step < steps; step++) {
+				
+				// Perform the next step.
+				positionX += speedX;
+				positionY += speedY;
+				
+				// Update the position of this object.
+				this.x = Math.round(positionX);
+				this.y = Math.round(positionY);
+				
+				// Check if there is a collision now.
+				for (RenderObject object : collisionTargets) {
+					
+					if (overlapsWithObject(object)) {
+						// There is a collision!
+						collision = object;
+						
+						// Exit the loop of checking for collisions directly.
+						break;
+					}
+				}
+				
+				if (collision != null) {
+					// There was a collision!
+					
+					// Move one step back, to the last position, because
+					// there was no collision there.
+					positionX -= speedX;
+					positionY -= speedY;
+					
+					// Set the positions to this last position.
+					this.x = Math.round(positionX);
+					this.y = Math.round(positionY);
+					
+					// Exit the moving loop, since we have a collision and we
+					// cannot move further.
+					break;
+				}
+				
+			}
+			
+			
+		} else {
+			// This object has no collision, just update the coordinates.
+
+			this.x += dx;
+			this.y += dy;
+		}
+		
+		if (collision != null) {
+			Log.info("There was a collision!");
+		}
+		
+		return collision;
+	}
+	
+	/**
+	 * Check if the bounding box of this rectangle overlaps with the bounding
+	 * box of another object.
+	 * 
+	 * @param other
+	 *            The other object.
+	 * @return True, iff the objects overlap.
+	 */
+	private boolean overlapsWithObject(RenderObject other) {
+		return (x < other.x + other.getWidth() &&
+		        x + getWidth() > other.x &&
+		        y < other.y + other.getHeight() &&
+		        y + getHeight()  > other.y);
 	}
 	
 	@Override
@@ -70,7 +186,45 @@ public abstract class RenderObject implements Comparable<RenderObject> {
 		}
 		return false;
 	}
+	
+	public int getCenterX() {
+		return x + getWidth() / 2;
+	}
+	
+	public int getCenterY() {
+		return y + getHeight() / 2;
+	}
+	
+	public abstract int getWidth();
+	
+	public abstract int getHeight();
+	
+	/**
+	 * Internal function to render objects.
+	 * 
+	 * @param g
+	 *            The graphics context to render on.
+	 */
+	public final void renderInternal(Graphics g) {
 
+		// Perform the actual rendering.
+		render(g);
+
+		// Perform the debug rendering.
+		
+		if (SHOW_BOUNDING_BOX) {
+
+			// Store the current color.
+			Color color = g.getColor();
+
+			g.setColor(Color.magenta);
+			g.drawRect(x, y, getWidth(), getHeight());
+
+			// Restore the color.
+			g.setColor(color);
+		}
+	}
+	
 	/**
 	 * Render this object on the Canvas' graphic area.
 	 * 

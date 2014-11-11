@@ -8,7 +8,7 @@ public class Block extends ImageObject {
 	private static final int zIndex = 100;
 
 	public Block(int x, int y) {
-		super(x, y, zIndex, FILENAME);
+		super(x, y, zIndex,true, FILENAME);
 	}
 
 }
