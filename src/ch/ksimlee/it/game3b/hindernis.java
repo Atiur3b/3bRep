@@ -9,7 +9,7 @@ import ch.ksimlee.it.game3b.InputHandler;
 public class hindernis extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
-	private static final String FILENAME = "birdy.png";
+	private static final String FILENAME = "Tiger.png";
 	
 	private static final int zIndex = 100;
 	
@@ -18,12 +18,15 @@ public class hindernis extends ImageObject {
 	public hindernis(int x, int y) {
 		super(x, y, zIndex,true, FILENAME);
 	}
+	
+	
 
 	public hindernis(hindernis hindernis) {
 		this(0,0);
 		
 		x = hindernis.getCenterX() - getWidth() / 2;
 		y = hindernis.y - getHeight();
+		collisionTargets.add(Spaceship.class);
 	}
 	
 	@Override

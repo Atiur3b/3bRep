@@ -2,6 +2,7 @@ package ch.ksimlee.it.game3b;
 
 import java.awt.event.KeyEvent;
 import java.util.Set;
+import ch.ksimlee.it.game3b.Gameover;
 import ch.ksimlee.it.game3b.Game;
 import ch.ksimlee.it.game3b.InputHandler;
 
@@ -17,11 +18,13 @@ public class Spaceship extends ImageObject {
 	
 	private int speed = 10;
 	
-	private static final int shotDelay = 5;	
+	private static final int shotDelay = 7;	
 	private int shotTimeout = 0; 
-
+	public static int lifecounter = 5;
 	public Spaceship(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
+		collisionTargets.add(Alien.class);
+		collisionTargets.add(hindernis.class);
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class Spaceship extends ImageObject {
 				
 		// Check if we need to move up.
 		
-		move(0, 3, game.getObjectsToRender()); {
+		RenderObject collision = move(0, 5, game.getObjectsToRender()); {
 			Game.collision = true;
 		}
 		
@@ -52,6 +55,14 @@ public class Spaceship extends ImageObject {
 			
 			move(speed, 0, game.getObjectsToRender());
 			Game.collision =true;
+		}
+		
+		
+		if (collision instanceof Alien) {
+			lifecounter --;
+		}
+		if (lifecounter == 0){
+			game.getObjectsToAdd().add(new Gameover(collision));
 		}
 		
 		// Check if we need to shoot.

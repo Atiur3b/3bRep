@@ -41,6 +41,7 @@ public class Game implements Runnable {
 	private final Spaceship spaceship;
 	private final hindernis hindernis;
 	public static int aliencounter = 0;
+	private static int life = 0;
 	public Game() {
 		
 		Log.info("Starting a game with " + ACTIONS_PER_SECOND + " actions/second.");
@@ -51,11 +52,11 @@ public class Game implements Runnable {
 		
 		// Add the spaceship to the list of renderable objects.
 		objectsToRender.add(spaceship);
-		for (int i = 0; i< 400; i += 100){
-			objectsToRender.add(new hindernis (600 , i));
+		for (int i = 0; i< 600; i += 100){
+			objectsToRender.add(new hindernis (700 , i));
 		}
 		for (int i = 0; i < 500; i += 100) {
-			objectsToRender.add(new Alien(i, 100));
+			objectsToRender.add(new Alien(i, 0));
 			aliencounter ++;
 		}
 		

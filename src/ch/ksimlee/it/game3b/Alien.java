@@ -15,7 +15,10 @@ public class Alien extends ImageObject {
 		super(x, y, zIndex, true, FILENAME);
 		
 		collisionTargets.add(Shot.class);
+		collisionTargets.add(Spaceship.class);
 	}
+	
+	
 
 	@Override
 	public void update(Game game) {
