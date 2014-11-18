@@ -27,9 +27,6 @@ public class Gameover extends ImageObject {
 	public void update(Game game) {
 		
 		
-		if (y <= -getHeight()) {
-			// The shot is outside of the visible area.
-			game.getObjectsToRemove().add(this);
-		}
+		
 	}
 }

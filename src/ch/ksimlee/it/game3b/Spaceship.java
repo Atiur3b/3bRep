@@ -2,6 +2,7 @@ package ch.ksimlee.it.game3b;
 
 import java.awt.event.KeyEvent;
 import java.util.Set;
+
 import ch.ksimlee.it.game3b.Gameover;
 import ch.ksimlee.it.game3b.Game;
 import ch.ksimlee.it.game3b.InputHandler;
@@ -21,6 +22,7 @@ public class Spaceship extends ImageObject {
 	private static final int shotDelay = 7;	
 	private int shotTimeout = 0; 
 	public static int lifecounter = 5;
+	public static int lifesave = 50;
 	public Spaceship(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
 		collisionTargets.add(Alien.class);
@@ -29,41 +31,53 @@ public class Spaceship extends ImageObject {
 
 	@Override
 	public void update(Game game) {
+		
+		if (lifesave >0){
+			lifesave --;
+		}
 				
 		// Check if we need to move up.
 		
-		RenderObject collision = move(0, 5, game.getObjectsToRender()); {
-			Game.collision = true;
+		RenderObject collision = null;
+		
+		collision = move(0, 5, game.getObjectsToRender());
+		handleCollision(collision instanceof Alien);
+		
+		if (collision != null) {
+			if (collision instanceof hindernis) {
+				game.getObjectsToRemove().add(collision);
+				game.getObjectsToRemove().add(this);
+				game.getObjectsToAdd().add(new Explosion(collision));
+				
+			}
+			
 		}
 		
 		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_UP) ||
 				game.getInputHandler().isKeyPressed(KeyEvent.VK_W)) {
 			
-			move(0, -speed, game.getObjectsToRender());
-			Game.collision =true;
+			collision = move(0, -speed, game.getObjectsToRender());
+			handleCollision(collision instanceof Alien);
 		}
 		
 		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_LEFT) ||
 				game.getInputHandler().isKeyPressed(KeyEvent.VK_S)) {
 			
-			move(-speed, 0, game.getObjectsToRender());
-			Game.collision =true;
+			collision = move(-speed, 0, game.getObjectsToRender());
+			handleCollision(collision instanceof Alien);
 		}
 		
 		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_RIGHT) ||
 				game.getInputHandler().isKeyPressed(KeyEvent.VK_D)) {
 			
-			move(speed, 0, game.getObjectsToRender());
-			Game.collision =true;
+			collision = move(speed, 0, game.getObjectsToRender());
+			handleCollision(collision instanceof Alien);
+			
 		}
 		
-		
-		if (collision instanceof Alien) {
-			lifecounter --;
-		}
 		if (lifecounter == 0){
 			game.getObjectsToAdd().add(new Gameover(collision));
-		}
+		}		
 		
 		// Check if we need to shoot.
 				if (game.getInputHandler().isKeyPressed(KeyEvent.VK_SPACE) &&
@@ -80,5 +94,17 @@ public class Spaceship extends ImageObject {
 						shotTimeout--;
 	}
 }
+	
+	public void handleCollision(boolean hitSomething) {
+		
+		if (hitSomething) {
+			if (lifesave == 0){
+			lifecounter --;
+			lifesave = 50;
+			}
+		}
+			
+			
+	}
 }
 

@@ -22,7 +22,12 @@ public class Alien extends ImageObject {
 
 	@Override
 	public void update(Game game) {
-		move( 0 , speed, game.getObjectsToRender());
+		RenderObject collison = move( 0 , speed, game.getObjectsToRender());
+		
+		if (collison instanceof Spaceship) {
+			Spaceship spaceship = (Spaceship) collison;
+			spaceship.handleCollision(true);
+		}
 	}
 
 }

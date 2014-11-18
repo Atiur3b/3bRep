@@ -33,19 +33,21 @@ public class hindernis extends ImageObject {
 	public void update(Game game) {
 		
 		// Check if we need to move left.
-		move( speed , 0, game.getObjectsToRender());
 		
 		
-		RenderObject collision = move(0, 0, game.getObjectsToRender());
+		RenderObject collision = move(speed, 0, game.getObjectsToRender());
 		
 		if (collision != null) {
 			if (collision instanceof Spaceship) {
-				game.getObjectsToRemove().add(collision);
+				
 				game.getObjectsToRemove().add(this);
 				game.getObjectsToAdd().add(new Explosion(collision));
+				Spaceship spaceship = (Spaceship) collision;
+				spaceship.handleCollision(true);
 			}
 			
-		
+			
+				
 		
 		// Check if we need to move right.
 		

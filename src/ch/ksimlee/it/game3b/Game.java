@@ -15,8 +15,6 @@ public class Game implements Runnable {
 
 
 
-	public static boolean collision;
-
 	
 	
 	/** A list of all objects that can be rendered. */
@@ -52,10 +50,12 @@ public class Game implements Runnable {
 		
 		// Add the spaceship to the list of renderable objects.
 		objectsToRender.add(spaceship);
+		/*
 		for (int i = 0; i< 600; i += 100){
 			objectsToRender.add(new hindernis (700 , i));
 		}
-		for (int i = 0; i < 500; i += 100) {
+		*/
+		for (int i = 0; i < 600; i += 100) {
 			objectsToRender.add(new Alien(i, 0));
 			aliencounter ++;
 		}
@@ -73,6 +73,13 @@ public class Game implements Runnable {
 			// logic to stop.
 			
 			// TODO: Add game mechanics here.
+			
+			
+			hindernis unten = new hindernis(0,0);
+			unten.getHeight();
+			Math.random();
+			objectsToRender.add(new hindernis (700 , (int)Math.random()*300));
+			
 			
 			// Update all game objects.
 			for (RenderObject object : objectsToRender) {
@@ -94,7 +101,7 @@ public class Game implements Runnable {
 			}
 			if (alienCounter < 5){
 				Math.random();
-				for (int i = 0; i < (int) (Math.random()*5); i += 3){
+				for (int i = 0; i < (int) (Math.random()*5); i += 5){
 				objectsToRender.add(new Alien((int) (Math.random()*700) , 100));
 				}
 			}
