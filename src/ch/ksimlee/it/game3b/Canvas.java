@@ -107,6 +107,7 @@ public class Canvas extends JPanel {
 		if (showFPS) {
 			g.setColor(Color.black);
 			g.drawString("FPS: " + lastFPS, SIZE.width - 60, 20);
+			
 		}
 		
 	}

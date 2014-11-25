@@ -3,11 +3,7 @@ package ch.ksimlee.it.game3b;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.ksimlee.it.game3b.Log;
-import ch.ksimlee.it.game3b.Alien;
-import ch.ksimlee.it.game3b.RenderObject;
-import ch.ksimlee.it.game3b.Spaceship;
-import ch.ksimlee.it.game3b.hindernis;
+
 
 public class Game implements Runnable {
 	
@@ -75,10 +71,11 @@ public class Game implements Runnable {
 			// TODO: Add game mechanics here.
 			
 			
-			hindernis unten = new hindernis(0,0);
-			unten.getHeight();
+			
+		
 			Math.random();
-			objectsToRender.add(new hindernis (700 , (int)Math.random()*300));
+			objectsToRender.add(new hindernis (700 , (int)Math.random()*600));
+			
 			
 			
 			// Update all game objects.
@@ -99,6 +96,7 @@ public class Game implements Runnable {
 					alienCounter++;
 				}
 			}
+			
 			if (alienCounter < 5){
 				Math.random();
 				for (int i = 0; i < (int) (Math.random()*5); i += 5){

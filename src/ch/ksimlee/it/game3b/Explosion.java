@@ -1,6 +1,7 @@
 package ch.ksimlee.it.game3b;
 
 import ch.ksimlee.it.game3b.Game;
+import ch.ksimlee.it.game3b.Sound;
 
 public class Explosion extends ImageObject {
 	
@@ -22,6 +23,7 @@ public class Explosion extends ImageObject {
 		
 		x = object.getCenterX() - getHeight()/2;
 		y = object.getCenterY() - getWidth()/2;
+		new Sound(Sound.EXPLOSION).play();
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package ch.ksimlee.it.game3b;
+
 import ch.ksimlee.it.game3b.Game;
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import ch.ksimlee.it.game3b.Sound;
 
 public class Shot extends ImageObject {
 	
@@ -17,8 +22,10 @@ public class Shot extends ImageObject {
 	public Shot(Spaceship spaceship) {
 		this(0,0);
 		
-		x = spaceship.getCenterX() - getWidth() / 2;
+		x  = spaceship.getCenterX() - getWidth() / 2;
 		y = spaceship.y - getHeight();
+		
+		new Sound(Sound.SHOT).play();
 		
 		collisionTargets.add(Alien.class);
 	}
