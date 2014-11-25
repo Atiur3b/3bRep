@@ -74,7 +74,7 @@ public class Game implements Runnable {
 			
 		
 			Math.random();
-			objectsToRender.add(new hindernis (700 , (int)Math.random()*600));
+			objectsToRender.add(new hindernis (700 , (int)(Math.random()*600.0f)));
 			
 			
 			
