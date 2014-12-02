@@ -18,19 +18,25 @@ public class Spaceship extends ImageObject {
 	private static final int zIndex = 100;
 	
 	private int speed = 10;
-	
+	private StringObject leben;
 	private static final int shotDelay = 7;	
 	private int shotTimeout = 0; 
 	public static int lifecounter = 5;
+	
 	public static int lifesave = 50;
+	
 	public Spaceship(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
 		collisionTargets.add(Alien.class);
 		collisionTargets.add(hindernis.class);
+		leben = new StringObject(50, 50, 10, "Verbleibende Leben "+ lifecounter);
 	}
 
 	@Override
 	public void update(Game game) {
+		
+		leben.setContent("Verbleibende Leben "+ lifecounter);
+		game.getObjectsToAdd().add(leben);
 		
 		if (lifesave >0){
 			lifesave --;

@@ -13,7 +13,7 @@ public class hindernis extends ImageObject {
 	
 	private static final int zIndex = 100;
 	
-	private int speed = -1;
+	private int speed = -5;
 
 	public hindernis(int x, int y) {
 		super(x, y, zIndex,true, FILENAME);

@@ -35,7 +35,7 @@ public class Game implements Runnable {
 	private final Spaceship spaceship;
 	private final hindernis hindernis;
 	public static int aliencounter = 0;
-	private static int life = 0;
+	private static int hindernisCounter = 100;
 	public Game() {
 		
 		Log.info("Starting a game with " + ACTIONS_PER_SECOND + " actions/second.");
@@ -43,6 +43,9 @@ public class Game implements Runnable {
 		// Create the spaceship.
 		spaceship = new Spaceship(200, 200);
 		hindernis = new hindernis(300, 200);
+		
+		
+		
 		
 		// Add the spaceship to the list of renderable objects.
 		objectsToRender.add(spaceship);
@@ -64,6 +67,7 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		
+		
 		while (true) {
 			// This loop goes forever, since we don't want our game
 			// logic to stop.
@@ -71,10 +75,16 @@ public class Game implements Runnable {
 			// TODO: Add game mechanics here.
 			
 			
+			hindernisCounter --;
 			
-		
-			Math.random();
-			objectsToRender.add(new hindernis (700 , (int)(Math.random()*600.0f)));
+			if (hindernisCounter <= 0) {
+				Math.random();
+				objectsToRender.add(new hindernis (700 , (int)(Math.random()*600.0f)));
+				hindernisCounter = 100;
+			}
+			
+			
+			
 			
 			
 			
