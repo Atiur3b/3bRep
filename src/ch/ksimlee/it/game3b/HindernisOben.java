@@ -6,26 +6,26 @@ import java.util.Set;
 import ch.ksimlee.it.game3b.InputHandler;
 
 
-public class hindernis extends ImageObject {
+public class HindernisOben extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
-	private static final String FILENAME = "roehre.jpg";
+	private static final String FILENAME = "RoehreOben.png";
 	
 	private static final int zIndex = 100;
 	
 	private int speed = -5;
 
-	public hindernis(int x, int y) {
+	public HindernisOben (int x, int y) {
 		super(x, y, zIndex,true, FILENAME);
 	}
 	
 	
 
-	public hindernis(hindernis hindernis) {
+	public HindernisOben (hindernis hindernis) {
 		this(0,0);
 		
-		x = hindernis.getCenterX() - getWidth() / 2;
-		y = hindernis.y - getHeight();
+		x = hindernis.x;
+		y = hindernis.y - 200 - getHeight();
 		collisionTargets.add(Spaceship.class);
 	}
 	

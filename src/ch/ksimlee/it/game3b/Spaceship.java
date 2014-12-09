@@ -29,7 +29,7 @@ public class Spaceship extends ImageObject {
 		super(x, y, zIndex, true, FILENAME);
 		collisionTargets.add(Alien.class);
 		collisionTargets.add(hindernis.class);
-		leben = new StringObject(50, 50, 10, "Verbleibende Leben "+ lifecounter);
+		leben = new StringObject(50, 50, 1000, "Verbleibende Leben "+ lifecounter);
 	}
 
 	@Override

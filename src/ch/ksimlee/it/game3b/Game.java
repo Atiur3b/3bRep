@@ -34,6 +34,7 @@ public class Game implements Runnable {
 	
 	private final Spaceship spaceship;
 	private final hindernis hindernis;
+	private final HindernisOben hindernisoben;
 	public static int aliencounter = 0;
 	private static int hindernisCounter = 100;
 	public Game() {
@@ -43,7 +44,7 @@ public class Game implements Runnable {
 		// Create the spaceship.
 		spaceship = new Spaceship(200, 200);
 		hindernis = new hindernis(300, 200);
-		
+		hindernisoben = new HindernisOben (100, 100);
 		
 		
 		
@@ -74,13 +75,17 @@ public class Game implements Runnable {
 			
 			// TODO: Add game mechanics here.
 			
-			
+			final int y = 300 + (int)(Math.random()*300.0f);
 			hindernisCounter --;
 			
 			if (hindernisCounter <= 0) {
-				Math.random();
-				objectsToRender.add(new hindernis (700 , (int)(Math.random()*600.0f)));
+				hindernis h = new hindernis (700 , y);
+				objectsToRender.add(h);
+				objectsToRender.add(new HindernisOben (h));
 				hindernisCounter = 100;
+				for (int i = 0; i < 4; i ++){
+				objectsToRender.add(new Alien((int) (Math.random()*700) , 100));
+				}
 			}
 			
 			
@@ -101,6 +106,7 @@ public class Game implements Runnable {
 			
 			
 			int alienCounter = 0;
+			
 			for (RenderObject object : objectsToRender) {
 				if (object instanceof Alien) {
 					alienCounter++;
@@ -138,5 +144,10 @@ public class Game implements Runnable {
 
 	public InputHandler getInputHandler() {
 		return inputHandler;
+	}
+
+	public void increasePoints() {
+
+		// TODO increase points
 	}
 }
