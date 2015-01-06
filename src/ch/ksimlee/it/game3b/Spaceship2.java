@@ -10,7 +10,7 @@ import ch.ksimlee.it.game3b.InputHandler;
 /**
  * This is a spaceship that will be controlled by the player.
  */
-public class Spaceship extends ImageObject {
+public class Spaceship2 extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
 	private static final String FILENAME = "spaceship.png";
@@ -25,7 +25,7 @@ public class Spaceship extends ImageObject {
 	
 	public static int lifesave = 50;
 	
-	public Spaceship(int x, int y) {
+	public Spaceship2(int x, int y) {
 		super(x, y, zIndex, true, FILENAME);
 		collisionTargets.add(Alien.class);
 		collisionTargets.add(hindernis.class);

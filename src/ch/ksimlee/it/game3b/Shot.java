@@ -15,7 +15,7 @@ public class Shot extends ImageObject {
 	private static final String FILENAME = "shot.png";
 	private static int points = 0;
 	private static final int zIndex = 100;
-	private StringObject punkte;
+	
 	
 	private int speed = 20;
 
@@ -31,16 +31,27 @@ public class Shot extends ImageObject {
 		
 		new Sound(Sound.SHOT).play();
 		
-		collisionTargets.add(Alien.class);
-		
-		punkte = new StringObject(50, 100, 1000, "Punkte "+ points);
+		collisionTargets.add(Alien.class);	
 	}
+
+	public Shot(Spaceship2 spaceship2) {
+		this(5,5);
+		
+		x  = spaceship2.getCenterX() - getWidth() / 2;
+		y = spaceship2.y - getHeight();
+		
+		new Sound(Sound.SHOT).play();
+		
+		collisionTargets.add(Alien.class);
+	}
+	
+
 
 	@Override
 	public void update(Game game) {
 		
-		punkte.setContent("Punkte"+ points);
-		game.getObjectsToAdd().add(punkte);
+		game.punkte.setContent("Punkte"+ points);
+		
 		
 		RenderObject collision = move(0, -speed, game.getObjectsToRender());
 

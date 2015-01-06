@@ -1,5 +1,6 @@
 package ch.ksimlee.it.game3b;
 
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,39 +33,44 @@ public class Game implements Runnable {
 	/** The handler that should receive the user input. */
 	private final InputHandler inputHandler = new InputHandler();
 	
-	private final Spaceship spaceship;
-	private final hindernis hindernis;
-	private final HindernisOben hindernisoben;
+	private Spaceship spaceship;
+	private hindernis hindernis;
+	private HindernisOben hindernisoben;
+	public static int points = 0;
 	public static int aliencounter = 0;
 	private static int hindernisCounter = 100;
+	public StringObject punkte;
 	public Game() {
 		
-		Log.info("Starting a game with " + ACTIONS_PER_SECOND + " actions/second.");
+		Log.info("Starting a game with " + ACTIONS_PER_SECOND + "action");
+		initialize();
+	    }
 		
-		// Create the spaceship.
-		spaceship = new Spaceship(200, 200);
-		hindernis = new hindernis(300, 200);
-		hindernisoben = new HindernisOben (100, 100);
+	private void initialize() {
+			// Create the spaceship.
+			spaceship = new Spaceship(200, 200);
+			hindernis = new hindernis(300, 200);
+			hindernisoben = new HindernisOben (100, 100);
 		
+			punkte = new StringObject(50, 100, 1000, "Punkte "+ points);
 		
-		
-		// Add the spaceship to the list of renderable objects.
-		objectsToRender.add(spaceship);
-		/*
-		for (int i = 0; i< 600; i += 100){
+			// Add the spaceship to the list of renderable objects.
+			objectsToRender.add(spaceship);
+			/*
+			for (int i = 0; i< 600; i += 100){
 			objectsToRender.add(new hindernis (700 , i));
-		}
-		*/
-		for (int i = 0; i < 600; i += 100) {
-			objectsToRender.add(new Alien(i, 0));
-			aliencounter ++;
-		}
+			}
+			 */
+			for (int i = 0; i < 600; i += 100) {
+				objectsToRender.add(new Alien(i, 0));
+				aliencounter ++;
+			}
 		
-	
+			getObjectsToAdd().add(punkte);
 		
-		Log.info("Game initialized.");
+			Log.info("Game initialized.");
 	}
-
+	
 	@Override
 	public void run() {
 		
@@ -74,6 +80,10 @@ public class Game implements Runnable {
 			// logic to stop.
 			
 			// TODO: Add game mechanics here.
+			
+			if (inputHandler.isKeyPressed(KeyEvent.VK_R)){
+				reset();
+			}
 			
 			final int y = 300 + (int)(Math.random()*300.0f);
 			hindernisCounter --;
@@ -137,6 +147,13 @@ public class Game implements Runnable {
 			}
 		
 	}
+	
+	public void reset(){
+		objectsToRender.clear();
+		points = 0;
+		spaceship.lifecounter = 5;
+		initialize();
+	}	
 	
 	public Set<RenderObject> getObjectsToRender() {
 		return objectsToRender;

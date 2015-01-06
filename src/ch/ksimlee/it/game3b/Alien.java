@@ -28,6 +28,11 @@ public class Alien extends ImageObject {
 			Spaceship spaceship = (Spaceship) collison;
 			spaceship.handleCollision(true);
 		}
+		if (collison instanceof Spaceship2) {
+			Spaceship2 spaceship2 = (Spaceship2) collison;
+			spaceship2.handleCollision(true);
+		}
+		
 	}
 
 }
