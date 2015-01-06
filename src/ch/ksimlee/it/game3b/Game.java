@@ -39,7 +39,9 @@ public class Game implements Runnable {
 	public static int points = 0;
 	public static int aliencounter = 0;
 	private static int hindernisCounter = 100;
-	public StringObject punkte;
+	public StringObject punkte1;
+	public StringObject punkte2;
+	
 	public Game() {
 		
 		Log.info("Starting a game with " + ACTIONS_PER_SECOND + "action");
@@ -52,7 +54,8 @@ public class Game implements Runnable {
 			hindernis = new hindernis(300, 200);
 			hindernisoben = new HindernisOben (100, 100);
 		
-			punkte = new StringObject(50, 100, 1000, "Punkte "+ points);
+			punkte1 = new StringObject(50, 100, 1000, "Punkte Spieler1:  "+ points);
+			punkte2 = new StringObject(50, 150, 1000, "Punkte Spieler2: "+ points);
 		
 			// Add the spaceship to the list of renderable objects.
 			objectsToRender.add(spaceship);
@@ -66,7 +69,9 @@ public class Game implements Runnable {
 				aliencounter ++;
 			}
 		
-			getObjectsToAdd().add(punkte);
+			getObjectsToAdd().add(punkte1);
+			getObjectsToAdd().add(punkte2);
+			
 		
 			Log.info("Game initialized.");
 	}

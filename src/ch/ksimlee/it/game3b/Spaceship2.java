@@ -18,10 +18,10 @@ public class Spaceship2 extends ImageObject {
 	private static final int zIndex = 100;
 	
 	private int speed = 10;
-	private StringObject leben;
+	private StringObject leben2;
 	private static final int shotDelay = 7;	
 	private int shotTimeout = 0; 
-	public static int lifecounter = 5;
+	public static int lifecounter2 = 5;
 	
 	public static int lifesave = 50;
 	
@@ -30,14 +30,14 @@ public class Spaceship2 extends ImageObject {
 		collisionTargets.add(Alien.class);
 		collisionTargets.add(hindernis.class);
 		collisionTargets.add(HindernisOben.class);
-		leben = new StringObject(50, 50, 1000, "Verbleibende Leben "+ lifecounter);
+		leben2 = new StringObject(50, 200, 1000, "Verbleibende Leben 2:  "+ lifecounter2);
 	}
 
 	@Override
 	public void update(Game game) {
 		
-		leben.setContent("Verbleibende Leben "+ lifecounter);
-		game.getObjectsToAdd().add(leben);
+		leben2.setContent("Verbleibende Leben "+ lifecounter2);
+		game.getObjectsToAdd().add(leben2);
 		
 		if (lifesave >0){
 			lifesave --;
@@ -82,7 +82,7 @@ public class Spaceship2 extends ImageObject {
 			
 		}
 		
-		if (lifecounter == 0){
+		if (lifecounter2 == 0){
 			game.getObjectsToAdd().add(new Gameover(collision));
 		}		
 		
@@ -106,7 +106,7 @@ public class Spaceship2 extends ImageObject {
 		
 		if (hitSomething) {
 			if (lifesave == 0){
-			lifecounter --;
+			lifecounter2 --;
 			lifesave = 50;
 			}
 		}
