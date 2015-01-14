@@ -32,7 +32,7 @@ public class StringObject extends RenderObject {
 	
 	public void render(Graphics g) {
 		// TODO set color
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.drawString(content, x, y);
 		
 

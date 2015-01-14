@@ -13,8 +13,8 @@ public class Shot extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
 	private static final String FILENAME = "shot.png";
-	private static int points1 = 0;
-	private static int points2 = 0;
+	public static int points1 = 0;
+	public static int points2 = 0;
 	private static final int zIndex = 100;
 	public static int wer = 0;
 	

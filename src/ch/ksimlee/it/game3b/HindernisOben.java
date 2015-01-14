@@ -1,9 +1,6 @@
 package ch.ksimlee.it.game3b;
 
-import java.awt.event.KeyEvent;
-import java.util.Set;
 
-import ch.ksimlee.it.game3b.InputHandler;
 
 
 public class HindernisOben extends ImageObject {
@@ -13,8 +10,6 @@ public class HindernisOben extends ImageObject {
 	
 	private static final int zIndex = 100;
 	
-	private int speed = -5;
-
 	public HindernisOben (int x, int y) {
 		super(x, y, zIndex,true, FILENAME);
 	}
@@ -27,6 +22,7 @@ public class HindernisOben extends ImageObject {
 		x = hindernis.x;
 		y = hindernis.y - 200 - getHeight();
 		collisionTargets.add(Spaceship.class);
+		collisionTargets.add(Spaceship2.class);
 	}
 	
 	@Override
@@ -34,16 +30,24 @@ public class HindernisOben extends ImageObject {
 		
 		// Check if we need to move left.
 		
-		
-		RenderObject collision = move(speed, 0, game.getObjectsToRender());
+		// Speed refers to speed in hindernis
+		RenderObject collision = move(hindernis.speed, 0, game.getObjectsToRender());
 		
 		if (collision != null) {
 			if (collision instanceof Spaceship) {
-				
+			//Explodes after spaceshiphit
 				game.getObjectsToRemove().add(this);
 				game.getObjectsToAdd().add(new Explosion(collision));
 				Spaceship spaceship = (Spaceship) collision;
 				spaceship.handleCollision(true);
+			}
+			
+			if (collision instanceof Spaceship2) {
+				
+				game.getObjectsToRemove().add(this);
+				game.getObjectsToAdd().add(new Explosion(collision));
+				Spaceship2 spaceship2 = (Spaceship2) collision;
+				spaceship2.handleCollision(true);
 			}
 			
 			

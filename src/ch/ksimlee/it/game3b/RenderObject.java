@@ -12,7 +12,7 @@ import java.util.Set;
 public abstract class RenderObject implements Comparable<RenderObject> {
 	
 	/** Should the bounding boxes of objects be drawn? */
-	public static boolean SHOW_BOUNDING_BOX = true;
+	public static boolean SHOW_BOUNDING_BOX = false;
 	
 	/** The X coordinate of this render object. */
 	protected int x;
