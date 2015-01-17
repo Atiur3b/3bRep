@@ -16,6 +16,7 @@ public class Alien extends ImageObject {
 		
 		collisionTargets.add(Shot.class);
 		collisionTargets.add(Spaceship.class);
+		collisionTargets.add(Spaceship2.class);
 	}
 	
 	
@@ -25,10 +26,14 @@ public class Alien extends ImageObject {
 		RenderObject collison = move( 0 , speed, game.getObjectsToRender());
 		
 		if (collison instanceof Spaceship) {
+			game.getObjectsToRemove().add(this);
+			game.getObjectsToAdd().add(new Explosion(collison));
 			Spaceship spaceship = (Spaceship) collison;
 			spaceship.handleCollision(true);
 		}
 		if (collison instanceof Spaceship2) {
+			game.getObjectsToRemove().add(this);
+			game.getObjectsToAdd().add(new Explosion(collison));
 			Spaceship2 spaceship2 = (Spaceship2) collison;
 			spaceship2.handleCollision(true);
 		}

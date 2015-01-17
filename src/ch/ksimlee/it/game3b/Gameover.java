@@ -5,7 +5,8 @@ public class Gameover extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
 	private static final String FILENAME = "gameover.png";
-	
+	public static int loosers = 0;
+
 	private static final int zIndex = 500;
 	
 	
@@ -15,7 +16,8 @@ public class Gameover extends ImageObject {
 	}
 
 	public Gameover(RenderObject collision) {
-		this(300,300);
+		this(150,300);
+		
 		/*
 		x = collision.getCenterX() - getWidth() / 2;
 		y = collision.y - getHeight();

@@ -1,11 +1,11 @@
 package ch.ksimlee.it.game3b;
 
 import java.awt.event.KeyEvent;
-import java.util.Set;
+
 
 import ch.ksimlee.it.game3b.Gameover;
 import ch.ksimlee.it.game3b.Game;
-import ch.ksimlee.it.game3b.InputHandler;
+
 
 /**
  * This is a spaceship that will be controlled by the player.
@@ -13,11 +13,11 @@ import ch.ksimlee.it.game3b.InputHandler;
 public class Spaceship extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
-	private static final String FILENAME = "spaceship.png";
+	private static final String FILENAME = "spaceship1-2.png";
 	
 	private static final int zIndex = 100;
 	
-	private int speed = 10;
+	private int speed = 15;
 	private StringObject leben;
 	private static final int shotDelay = 7;	
 	private int shotTimeout = 0; 
@@ -30,15 +30,12 @@ public class Spaceship extends ImageObject {
 		collisionTargets.add(Alien.class);
 		collisionTargets.add(hindernis.class);
 		collisionTargets.add(HindernisOben.class);
-		leben = new StringObject(50, 50, 1000, "Verbleibende Leben "+ lifecounter);
+		leben = new StringObject(50, 20, 1000, "Verbleibende Leben "+ lifecounter);
 	}
 
 	@Override
 	public void update(Game game) {
-		
-		leben.setContent("Verbleibende Leben "+ lifecounter);
-		game.getObjectsToAdd().add(leben);
-		
+				
 		if (lifesave >0){
 			lifesave --;
 		}
@@ -59,32 +56,35 @@ public class Spaceship extends ImageObject {
 			}
 			
 		}
-		
-		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_UP) ||
-				game.getInputHandler().isKeyPressed(KeyEvent.VK_W)) {
+		if (y >= 0){
+		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_UP)) {
 			
 			collision = move(0, -speed, game.getObjectsToRender());
 			handleCollision(collision instanceof Alien);
 		}
-		
-		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_LEFT) ||
-				game.getInputHandler().isKeyPressed(KeyEvent.VK_S)) {
+		}
+		if (x >= 0){
+		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_LEFT)) {
 			
 			collision = move(-speed, 0, game.getObjectsToRender());
 			handleCollision(collision instanceof Alien);
 		}
-		
-		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_RIGHT) ||
-				game.getInputHandler().isKeyPressed(KeyEvent.VK_D)) {
+		}
+		if (x <= 700){
+		if (game.getInputHandler().isKeyPressed(KeyEvent.VK_RIGHT)) {
 			
 			collision = move(speed, 0, game.getObjectsToRender());
 			handleCollision(collision instanceof Alien);
-			
+		}
 		}
 		
 		if (lifecounter == 0){
-			game.getObjectsToAdd().add(new Gameover(collision));
+			Gameover.loosers ++;
+			game.getObjectsToRemove().add(this);
+			game.getObjectsToAdd().add(new Explosion(this));
 		}		
+		leben.setContent("Verbleibende Leben "+ lifecounter);
+		game.getObjectsToAdd().add(leben);
 		
 		// Check if we need to shoot.
 				if (game.getInputHandler().isKeyPressed(KeyEvent.VK_SPACE) &&
