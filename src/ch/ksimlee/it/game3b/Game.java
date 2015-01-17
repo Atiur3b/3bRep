@@ -195,8 +195,11 @@ public class Game implements Runnable {
 	public void reset(){
 		objectsToRender.clear();
 		points = 0;
+<<<<<<< HEAD
 		Shot.points1 = 0;
 		Shot.points2 = 0;
+=======
+>>>>>>> origin/master
 		Spaceship.lifecounter = 5;
 		Spaceship2.lifecounter2 = 5;
 		PlayerTwo = true;

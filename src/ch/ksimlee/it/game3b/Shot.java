@@ -12,7 +12,11 @@ import ch.ksimlee.it.game3b.Sound;
 public class Shot extends ImageObject {
 	
 	/** Path to the image on the filesystem. */
+<<<<<<< HEAD
 	private static final String FILENAME = "Shot.png";
+=======
+	private static final String FILENAME = "shot.png";
+>>>>>>> origin/master
 	public static int points1 = 0;
 	public static int points2 = 0;
 	private static final int zIndex = 100;
